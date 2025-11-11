@@ -29,6 +29,7 @@ echo -e " ${white}10${nc}. View Created User Logs"
 echo -e " ${white}11${nc}. Change SSH Banner"
 echo -e " ${white}12${nc}. Lock User Account"
 echo -e " ${white}13${nc}. Check User Login OpenVPN"
+echo -e " ${white}14${nc}. Log Auth-Tail"
 echo -e ""
 echo -e "${red}=========================================${nc}"
 echo -e " ${white}0${nc} Back to Menu"
@@ -55,6 +56,7 @@ case $opt in
   11) clear; nano /etc/issue.net ;;
   12) clear; lock-unlock ;;
   13) clear; cek-openvpn ;;
+  14) clear; auth-tail ;;
   0) clear; menu ;;
   x|X) exit ;;
   *) echo -e "${red}You pressed it wrong!${nc}"; sleep 1; m-sshovpn ;;
