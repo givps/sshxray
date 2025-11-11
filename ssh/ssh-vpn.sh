@@ -138,7 +138,6 @@ wget -O autokick "https://raw.githubusercontent.com/givps/sshxray/master/ssh/aut
 wget -O ceklim "https://raw.githubusercontent.com/givps/sshxray/master/ssh/ceklim.sh"
 wget -O lock-unlock "https://raw.githubusercontent.com/givps/sshxray/master/ssh/lock-unlock.sh"
 wget -O xp "https://raw.githubusercontent.com/givps/sshxray/master/ssh/xp.sh"
-wget -O auth-tail "https://raw.githubusercontent.com/givps/sshxray/master/ssh/auth-tail.sh"
 wget -O cek-openvpn "https://raw.githubusercontent.com/givps/sshxray/master/openvpn/cek-openvpn.sh"
 
 chmod +x m-sshovpn
@@ -154,7 +153,6 @@ chmod +x autokick
 chmod +x ceklim
 chmod +x lock-unlock
 chmod +x xp
-chmod +x auth-tail
 chmod +x cek-openvpn
 
 cat > /etc/cron.d/xp_otm <<EOF
