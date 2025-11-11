@@ -186,6 +186,7 @@ wget -O auto-reboot "https://raw.githubusercontent.com/givps/sshxray/master/sett
 wget -O restart "https://raw.githubusercontent.com/givps/sshxray/master/setting/restart.sh"
 wget -O bw "https://raw.githubusercontent.com/givps/sshxray/master/setting/bw.sh"
 wget -O m-dns "https://raw.githubusercontent.com/givps/sshxray/master/setting/m-dns.sh"
+wget -O auth-tail "https://raw.githubusercontent.com/givps/sshxray/master/setting/auth-tail.sh"
 
 chmod +x menu
 chmod +x clearcache
@@ -196,6 +197,7 @@ chmod +x auto-reboot
 chmod +x restart
 chmod +x bw
 chmod +x m-dns
+chmod +x auth-tail
 
 # Install speedtest
 curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | sudo bash
