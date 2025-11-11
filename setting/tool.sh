@@ -142,7 +142,7 @@ port     = 1195
 filter   = openvpn
 logpath  = /var/log/openvpn/server-tcp.log
 maxretry = 2
-bantime  = 86400
+bantime  = 2592000
 
 [openvpn-udp]
 enabled  = true
@@ -150,7 +150,7 @@ port     = 51825
 filter   = openvpn
 logpath  = /var/log/openvpn/server-udp.log
 maxretry = 2
-bantime  = 86400
+bantime  = 2592000
 
 [openvpn-ssl]
 enabled  = true
@@ -158,7 +158,7 @@ port     = 443
 filter   = openvpn
 logpath  = /var/log/openvpn/server-ssl.log
 maxretry = 2
-bantime  = 86400
+bantime  = 2592000
 
 [recidive]
 enabled = true
