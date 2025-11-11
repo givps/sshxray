@@ -47,4 +47,4 @@ stdbuf -oL tail -F "$LOG" | while IFS= read -r line; do
 
   printf "%s %-15s %-2s %b%s%b\n" "$ts" "$host" "$icon" "$color" "$msg" "$N"
 done
-m-sshovpn
+m-system
