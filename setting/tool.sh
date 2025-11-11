@@ -136,15 +136,6 @@ findtime = 600
 bantime  = 2592000
 backend  = auto
 
-[recidive]
-enabled = true
-filter = recidive
-logpath = /var/log/fail2ban.log
-action = iptables-allports[name=recidive, protocol=all]
-bantime = 2592000
-findtime = 600
-maxretry = 1
-
 [openvpn-tcp]
 enabled  = true
 port     = 1195
@@ -174,9 +165,9 @@ enabled = true
 filter = recidive
 logpath = /var/log/fail2ban.log
 action = iptables-allports[name=recidive, protocol=all]
-bantime = 1209600
-findtime = 86400
-maxretry = 2
+bantime = 2592000
+findtime = 600
+maxretry = 1
 EOF
 
 systemctl daemon-reload
