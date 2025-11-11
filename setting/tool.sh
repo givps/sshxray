@@ -120,7 +120,7 @@ chown root:root /var/log/auth.log /var/log/fail2ban.log
 chmod 600 /var/log/auth.log /var/log/fail2ban.log
 cat > /etc/fail2ban/jail.local << 'EOF'
 [DEFAULT]
-bantime = 2592000
+bantime = 31536000
 findtime = 600
 maxretry = 1
 banaction = iptables-multiport
@@ -133,7 +133,7 @@ filter   = sshd
 logpath  = /var/log/auth.log
 maxretry = 1
 findtime = 600
-bantime  = 2592000
+bantime  = 31536000
 backend  = auto
 
 [openvpn-tcp]
@@ -142,7 +142,7 @@ port     = 1195
 filter   = openvpn
 logpath  = /var/log/openvpn/server-tcp.log
 maxretry = 2
-bantime  = 2592000
+bantime  = 31536000
 
 [openvpn-udp]
 enabled  = true
@@ -150,7 +150,7 @@ port     = 51825
 filter   = openvpn
 logpath  = /var/log/openvpn/server-udp.log
 maxretry = 2
-bantime  = 2592000
+bantime  = 31536000
 
 [openvpn-ssl]
 enabled  = true
@@ -158,14 +158,14 @@ port     = 443
 filter   = openvpn
 logpath  = /var/log/openvpn/server-ssl.log
 maxretry = 2
-bantime  = 2592000
+bantime  = 31536000
 
 [recidive]
 enabled = true
 filter = recidive
 logpath = /var/log/fail2ban.log
 action = iptables-allports[name=recidive, protocol=all]
-bantime = 2592000
+bantime = 31536000
 findtime = 600
 maxretry = 1
 EOF
