@@ -21,17 +21,16 @@ ssl=`cat /root/log-install.txt | grep -w "Stunnel4" | cut -f2 -d: | awk '{print 
 echo -e "${red}=========================================${nc}"
 echo -e "${blue}            SSH Account            ${nc}"
 echo -e "${red}=========================================${nc}"
-[ "$(id -u)" -ne 0 ] && echo "Run as root" >&2 && exit 1
-read -p "Username: " Login
-read -s -p "Password (Press Enter to auto-generate): " Pass; echo
-read -p "Expire in (days): " d
-[ -z "$Pass" ] && Pass=$(openssl rand -base64 24 | tr '+/' '-_' | tr -d '=')
-exp=$(date -d "+${d} days" +%Y-%m-%d)
-id "$Login" &>/dev/null && { echo "User already exists" >&2; exit 1; }
-useradd -e "$exp" -s /bin/false -M "$Login"
-echo "$Login:$Pass" | chpasswd
-printf "\nUser: %s\nPass: %s\nExpires: %s\n" "$Login" "$Pass" "$exp"
+read -p "Username : " Login
+read -p "Password : " Pass
+read -p "Expired (day): " masaaktif
+
+sleep 1
 clear
+useradd -e `date -d "$masaaktif days" +"%Y-%m-%d"` -s /bin/false -M $Login
+exp="$(chage -l $Login | grep "Account expires" | awk -F": " '{print $2}')"
+echo -e "$Pass\n$Pass\n"|passwd $Login &> /dev/null
+PID=`ps -ef |grep -v grep | grep ws-proxy |awk '{print $2}'`
 if [[ ! -z "${PID}" ]]; then
 echo -e "${red}=========================================${nc}" | tee -a /var/log/create-ssh.log
 echo -e "${blue}            SSH Account            ${nc}" | tee -a /var/log/create-ssh.log
