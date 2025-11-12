@@ -23,14 +23,14 @@ echo -e "${blue}           CREATE SSH Account            ${nc}"
 echo -e "${red}=========================================${nc}"
 read -p "Username : " Login
 read -p "Password : " Pass
-read -p "Expired (day): " masaaktif
+read -p "Expired (hari): " masaaktif
 
 sleep 1
 clear
 useradd -e `date -d "$masaaktif days" +"%Y-%m-%d"` -s /bin/false -M $Login
 exp="$(chage -l $Login | grep "Account expires" | awk -F": " '{print $2}')"
 echo -e "$Pass\n$Pass\n"|passwd $Login &> /dev/null
-PID=`ps -ef |grep -v grep | grep ws-proxy |awk '{print $2}'`
+PID=`ps -ef |grep -v grep | grep sshws |awk '{print $2}'`
 if [[ ! -z "${PID}" ]]; then
 echo -e "${red}=========================================${nc}" | tee -a /var/log/create-ssh.log
 echo -e "${blue}            SSH Account            ${nc}" | tee -a /var/log/create-ssh.log
