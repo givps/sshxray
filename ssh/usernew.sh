@@ -19,7 +19,7 @@ ssh=`cat /root/log-install.txt | grep -w "OpenSSH" | cut -f2 -d: | awk '{print $
 ssl=`cat /root/log-install.txt | grep -w "Stunnel4" | cut -f2 -d: | awk '{print $1,$2,$3,$4}'`
 
 echo -e "${red}=========================================${nc}"
-echo -e "${blue}            SSH Account            ${nc}"
+echo -e "${blue}           CREATE SSH Account            ${nc}"
 echo -e "${red}=========================================${nc}"
 read -p "Username : " Login
 read -p "Password : " Pass
