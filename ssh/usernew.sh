@@ -22,7 +22,7 @@ echo -e "${red}=========================================${nc}"
 echo -e "${blue}           CREATE SSH Account            ${nc}"
 echo -e "${red}=========================================${nc}"
 read -p "Username : " Login
-read -s -p "Password : " Pass
+read -p "Password : " Pass
 read -p "Expired (day): " masaaktif
 
 sleep 1
