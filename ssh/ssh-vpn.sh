@@ -9,12 +9,17 @@ chmod +x /etc/pam.d/common-password
 
 # setup sshd
 cat > /etc/ssh/sshd_config <<EOF
+# Ports
 Port 22
 Port 2222
+
+# Authentication
 PermitRootLogin yes
 PasswordAuthentication yes
 PermitEmptyPasswords no
 PubkeyAuthentication yes
+
+# Connection Settings
 AllowTcpForwarding yes
 PermitTTY yes
 X11Forwarding no
@@ -24,11 +29,15 @@ ClientAliveCountMax 2
 MaxAuthTries 3
 MaxSessions 10
 MaxStartups 10:30:100
+
+# Security & Performance
 UsePAM yes
 ChallengeResponseAuthentication no
 UseDNS no
 Compression delayed
 GSSAPIAuthentication no
+
+# Logging
 SyslogFacility AUTH
 LogLevel INFO
 EOF
