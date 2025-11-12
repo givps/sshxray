@@ -22,11 +22,12 @@ echo -e "${red}=========================================${nc}"
 echo -e "${blue}           CREATE SSH Account            ${nc}"
 echo -e "${red}=========================================${nc}"
 read -p "Username : " Login
-read -p "Password : " Pass
+read -s -p "Password (Press Enter to auto-generate): " Pass; echo
 read -p "Expired (day): " masaaktif
 
 sleep 1
 clear
+[ -z "$Pass" ] && Pass=$(/dev/urandom tr -dc a-zA-Z0-9 | head -c10)
 useradd -e `date -d "$masaaktif days" +"%Y-%m-%d"` -s /bin/false -M $Login
 exp="$(chage -l $Login | grep "Account expires" | awk -F": " '{print $2}')"
 echo -e "$Pass\n$Pass\n"|passwd $Login &> /dev/null
