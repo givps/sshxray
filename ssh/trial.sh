@@ -18,12 +18,17 @@ domain=$(cat /usr/local/etc/xray/domain 2>/dev/null || cat /root/domain 2>/dev/n
 ssh=`cat /root/log-install.txt | grep -w "OpenSSH" | cut -f2 -d: | awk '{print $1,$2}'`
 ssl=`cat /root/log-install.txt | grep -w "Stunnel4" | cut -f2 -d: | awk '{print $1,$2,$3,$4}'`
 
-Login="trial$(tr -dc A-Za-z0-9 </dev/urandom | head -c5)"
-Pass=$(openssl rand -base64 24 | tr '+/' '-_' | tr -d '=')
-exp=$(date -d "+1 day" +%Y-%m-%d)
-useradd -e "$exp" -s /bin/false -M "$Login"
-echo "$Login:$Pass" | chpasswd
-printf "User: %s\nPass: %s\nExp : %s\n" "$Login" "$Pass" "$exp"
+Login=trial`</dev/urandom tr -dc X-Z0-9 | head -c4`
+masaaktif="1"
+Pass=pass`</dev/urandom tr -dc a-zA-Z0-9 | head -c4`
+echo Ping Host
+echo Create Akun: $Login
+echo Setting Password: $Pass
+clear
+useradd -e `date -d "$masaaktif days" +"%Y-%m-%d"` -s /bin/false -M $Login
+exp="$(chage -l $Login | grep "Account expires" | awk -F": " '{print $2}')"
+echo -e "$Pass\n$Pass\n"|passwd $Login &> /dev/null
+PID=`ps -ef |grep -v grep | grep ws-proxy |awk '{print $2}'`
 clear
 if [[ ! -z "${PID}" ]]; then
 echo -e "${red}=========================================${nc}"
