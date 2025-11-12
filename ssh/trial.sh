@@ -18,7 +18,7 @@ domain=$(cat /usr/local/etc/xray/domain 2>/dev/null || cat /root/domain 2>/dev/n
 ssh=`cat /root/log-install.txt | grep -w "OpenSSH" | cut -f2 -d: | awk '{print $1,$2}'`
 ssl=`cat /root/log-install.txt | grep -w "Stunnel4" | cut -f2 -d: | awk '{print $1,$2,$3,$4}'`
 
-Login=trial`</dev/urandom tr -dc a-zA-Z0-9 | head -c4`
+Login=trial`</dev/urandom tr -dc a-zA-Z0-9 | head -c5`
 masaaktif="1"
 Pass=pass`</dev/urandom tr -dc a-zA-Z0-9 | head -c10`
 echo Ping Host
