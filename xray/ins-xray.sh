@@ -367,7 +367,7 @@ systemctl start xray
 # nginx
 cat > /etc/nginx/conf.d/xray.conf <<'EOF'
 server {
-    listen 80;
+    listen 8080;
     server_name _;
 
     location /vless-ws {
@@ -411,7 +411,7 @@ server {
 }
 
 server {
-    listen 443 ssl http2;
+    listen 4433 ssl http2;
     server_name _;
 
     ssl_certificate /usr/local/etc/xray/xray.crt;
