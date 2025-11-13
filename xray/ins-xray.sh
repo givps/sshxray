@@ -366,171 +366,136 @@ systemctl start xray
 
 # nginx
 cat > /etc/nginx/conf.d/xray.conf <<'EOF'
-    server {
-        listen 127.0.0.1:8080;
-        server_name _;
+server {
+    listen 80;
+    server_name _;
 
-        location /vless-ws {
-            proxy_pass http://127.0.0.1:10001;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_read_timeout 86400;
-            proxy_send_timeout 86400;
-            proxy_buffering off;
-            proxy_request_buffering off;
-            proxy_cache_bypass $http_upgrade;
-            keepalive_timeout 120s;
-        }
-
-        location /vmess-ws {
-            proxy_pass http://127.0.0.1:10002;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_read_timeout 86400;
-            proxy_send_timeout 86400;
-            proxy_buffering off;
-            proxy_request_buffering off;
-            proxy_cache_bypass $http_upgrade;
-            keepalive_timeout 120s;
-        }
-
-        location /trojan-ws {
-            proxy_pass http://127.0.0.1:10003;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_read_timeout 86400;
-            proxy_send_timeout 86400;
-            proxy_buffering off;
-            proxy_request_buffering off;
-            proxy_cache_bypass $http_upgrade;
-            keepalive_timeout 120s;
-        }
+    location /vless-ws {
+        proxy_pass http://127.0.0.1:10001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_buffering off;
+        proxy_request_buffering off;
     }
 
-    server {
-        listen 127.0.0.1:4433 ssl http2;
-        server_name _;
-
-        ssl_certificate /usr/local/etc/xray/xray.crt;
-        ssl_certificate_key /usr/local/etc/xray/xray.key;
-        ssl_protocols TLSv1.2 TLSv1.3;
-        ssl_ciphers ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384;
-        ssl_prefer_server_ciphers on;
-        ssl_session_cache shared:SSL:10m;
-        ssl_session_timeout 1h;
-        ssl_session_tickets off;
-        ssl_stapling off;
-        ssl_stapling_verify off;
-        resolver 1.1.1.1 8.8.8.8 valid=300s;
-        resolver_timeout 5s;
-
-        add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
-        add_header X-Frame-Options "SAMEORIGIN" always;
-        add_header X-Content-Type-Options "nosniff" always;
-        add_header Referrer-Policy "no-referrer-when-downgrade" always;
-
-        location /vless-ws {
-            proxy_pass http://127.0.0.1:10001;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_read_timeout 86400;
-            proxy_send_timeout 86400;
-            proxy_buffering off;
-            proxy_request_buffering off;
-            proxy_cache_bypass $http_upgrade;
-            keepalive_timeout 120s;
-        }
-
-        location /vmess-ws {
-            proxy_pass http://127.0.0.1:10002;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_read_timeout 86400;
-            proxy_send_timeout 86400;
-            proxy_buffering off;
-            proxy_request_buffering off;
-            proxy_cache_bypass $http_upgrade;
-            keepalive_timeout 120s;
-        }
-
-        location /trojan-ws {
-            proxy_pass http://127.0.0.1:10003;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "upgrade";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_read_timeout 86400;
-            proxy_send_timeout 86400;
-            proxy_buffering off;
-            proxy_request_buffering off;
-            proxy_cache_bypass $http_upgrade;
-            keepalive_timeout 120s;
-        }
-
-        location /vless-grpc {
-            grpc_pass grpc://127.0.0.1:10011;
-            client_max_body_size 0;
-            grpc_set_header X-Real-IP $remote_addr;
-            grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            grpc_set_header Host $host;
-            grpc_read_timeout 86400s;
-            grpc_send_timeout 86400s;
-            keepalive_timeout 120s;
-            proxy_buffering off;
-        }
-
-        location /vmess-grpc {
-            grpc_pass grpc://127.0.0.1:10012;
-            client_max_body_size 0;
-            grpc_set_header X-Real-IP $remote_addr;
-            grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            grpc_set_header Host $host;
-            grpc_read_timeout 86400s;
-            grpc_send_timeout 86400s;
-            keepalive_timeout 120s;
-            proxy_buffering off;
-        }
-
-        location /trojan-grpc {
-            grpc_pass grpc://127.0.0.1:10013;
-            client_max_body_size 0;
-            grpc_set_header X-Real-IP $remote_addr;
-            grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            grpc_set_header Host $host;
-            grpc_read_timeout 86400s;
-            grpc_send_timeout 86400s;
-            keepalive_timeout 120s;
-            proxy_buffering off;
-        }
+    location /vmess-ws {
+        proxy_pass http://127.0.0.1:10002;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_buffering off;
+        proxy_request_buffering off;
     }
+
+    location /trojan-ws {
+        proxy_pass http://127.0.0.1:10003;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_buffering off;
+        proxy_request_buffering off;
+    }
+}
+
+server {
+    listen 443 ssl http2;
+    server_name _;
+
+    ssl_certificate /usr/local/etc/xray/xray.crt;
+    ssl_certificate_key /usr/local/etc/xray/xray.key;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-CHACHA20-POLY1305:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384;
+    ssl_prefer_server_ciphers on;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 1h;
+    ssl_session_tickets off;
+    resolver 1.1.1.1 8.8.8.8 valid=300s;
+    resolver_timeout 5s;
+
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "no-referrer-when-downgrade" always;
+
+    location /vless-ws {
+        proxy_pass http://127.0.0.1:10001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_buffering off;
+        proxy_request_buffering off;
+    }
+
+    location /vmess-ws {
+        proxy_pass http://127.0.0.1:10002;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_buffering off;
+        proxy_request_buffering off;
+    }
+
+    location /trojan-ws {
+        proxy_pass http://127.0.0.1:10003;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_buffering off;
+        proxy_request_buffering off;
+    }
+
+    location /vless-grpc {
+        grpc_pass grpc://127.0.0.1:10011;
+        client_max_body_size 0;
+        grpc_set_header X-Real-IP $remote_addr;
+        grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        grpc_set_header Host $host;
+        proxy_buffering off;
+    }
+
+    location /vmess-grpc {
+        grpc_pass grpc://127.0.0.1:10012;
+        client_max_body_size 0;
+        grpc_set_header X-Real-IP $remote_addr;
+        grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        grpc_set_header Host $host;
+        proxy_buffering off;
+    }
+
+    location /trojan-grpc {
+        grpc_pass grpc://127.0.0.1:10013;
+        client_max_body_size 0;
+        grpc_set_header X-Real-IP $remote_addr;
+        grpc_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        grpc_set_header Host $host;
+        proxy_buffering off;
+    }
+}
 EOF
 
 # Reload systemd and start Xray
