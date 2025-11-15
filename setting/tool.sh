@@ -225,3 +225,7 @@ apt-get -y --purge remove apache2* >/dev/null 2>&1
 apt-get -y --purge remove bind9* >/dev/null 2>&1
 apt-get -y remove sendmail* >/dev/null 2>&1
 apt autoremove -y >/dev/null 2>&1
+
+# swap based on RAM size (1GB–8GB)
+wget -O /root/1-8g.sh https://raw.githubusercontent.com/givps/sshxray/master/setting/1-8g.sh && chmod +x /root/1-8g.sh && /root/1-8g.sh
+
